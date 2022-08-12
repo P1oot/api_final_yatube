@@ -55,8 +55,8 @@ class Post(models.Model):
     def __str__(self):
         return self.text
 
-    # class Meta:
-    #     ordering = ['-pub_date'] Не проходит pytest
+    class Meta:
+        ordering = ['pub_date']
 
 
 class Comment(models.Model):
@@ -105,4 +105,9 @@ class Follow(models.Model):
     )
 
     class Meta:
-        unique_together = ['user', 'following']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='unique_following'
+            )
+        ]

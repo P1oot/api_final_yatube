@@ -1,4 +1,3 @@
-# from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from posts.models import Post, Group, Comment, Follow
 from .serializers import (GroupSerializer, PostSerializer, CommentSerializer,
@@ -68,8 +67,6 @@ class FollowViewSet(CreateListViewSet):
         return new_queryset
 
     def perform_create(self, serializer):
-        if serializer.validated_data["following"] == self.request.user:
-            raise serializers.ValidationError('Нельзя подписаться на себя')
         try:
             serializer.save(user=self.request.user)
         except Exception:
