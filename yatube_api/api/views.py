@@ -6,7 +6,6 @@ from rest_framework import viewsets, mixins
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework import serializers
 
 
 class CreateListViewSet(
@@ -67,9 +66,4 @@ class FollowViewSet(CreateListViewSet):
         return new_queryset
 
     def perform_create(self, serializer):
-        try:
-            serializer.save(user=self.request.user)
-        except Exception:
-            raise serializers.ValidationError(
-                'Вы уже подписаны на зтого автора'
-            )
+        serializer.save(user=self.request.user)
